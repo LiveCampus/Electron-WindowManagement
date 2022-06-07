@@ -1,0 +1,22 @@
+{
+  "name": "windows-management",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "pnpm clean && tsc && pnpm copy-files",
+    "watch": "tsc -w",
+    "start": "pnpm run build && electron ./dist/main",
+    "clean": "rimraf dist/",
+    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css dist/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.40",
+    "copyfiles": "^2.4.1",
+    "electron": "^19.0.3",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.3"
+  }
+}
