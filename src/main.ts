@@ -1,6 +1,7 @@
 import {
   app,
   BrowserWindow,
+  dialog,
   ipcMain,
   Menu,
   MenuItemConstructorOptions,
@@ -76,6 +77,11 @@ app.on("ready", () => {
   ipcMain.on("item:add", (e, data) => {
     win.webContents.send("item:add", data);
     BrowserWindow.fromWebContents(e.sender).close();
+    dialog.showMessageBox({
+      type: "info",
+      title: "Ajout d'un item",
+      message: "Item ajouté avec succès",
+    });
   });
 });
 
