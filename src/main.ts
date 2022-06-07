@@ -5,6 +5,7 @@ import {
   ipcMain,
   Menu,
   MenuItemConstructorOptions,
+  Notification,
 } from "electron";
 import * as path from "path";
 import { createFormWindow } from "./form";
@@ -77,11 +78,17 @@ app.on("ready", () => {
   ipcMain.on("item:add", (e, data) => {
     win.webContents.send("item:add", data);
     BrowserWindow.fromWebContents(e.sender).close();
-    dialog.showMessageBox({
-      type: "info",
-      title: "Ajout d'un item",
-      message: "Item ajouté avec succès",
+    // dialog.showMessageBox({
+    //   type: "info",
+    //   title: "Ajout d'un item",
+    //   message: "Item ajouté avec succès",
+    // });
+    const notif = new Notification({
+      title: "Electron - WindowManagement",
+      body: "Ajout d'un item",
+      icon: path.join(__dirname, "../assets/info.png"),
     });
+    notif.show();
   });
 });
 
