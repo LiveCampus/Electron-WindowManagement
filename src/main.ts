@@ -1,4 +1,10 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  MenuItemConstructorOptions,
+} from "electron";
 import * as path from "path";
 import { createFormWindow } from "./form";
 
@@ -22,6 +28,19 @@ const createMenuTemplate = (
             app.quit();
           },
         },
+      ],
+    },
+    process.env.NODE_ENV !== "production" && {
+      label: "Developers Tools",
+      submenu: [
+        {
+          label: "Toggle DevTools",
+          accelerator: "CommandOrControl+Shift+I",
+          click: (_, win) => {
+            win.webContents.toggleDevTools();
+          },
+        },
+        { role: "reload" },
       ],
     },
   ];
@@ -53,6 +72,11 @@ app.on("ready", () => {
 
   const menu = Menu.buildFromTemplate(createMenuTemplate(win));
   Menu.setApplicationMenu(menu);
+
+  ipcMain.on("item:add", (e, data) => {
+    win.webContents.send("item:add", data);
+    BrowserWindow.fromWebContents(e.sender).close();
+  });
 });
 
 app.on("window-all-closed", () => {
